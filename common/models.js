@@ -139,3 +139,72 @@ export async function setAllSubtasksDone(taskId) {
 	return t;
 }
 
+// Goals
+export async function createGoal(partial) {
+	const goals = await listGoals();
+	const now = new Date().toISOString();
+	const g = {
+		id: uid("goal"),
+		title: partial.title?.trim() || "New Goal",
+		description: partial.description || "",
+		targetDate: partial.targetDate || "",
+		taskIds: Array.isArray(partial.taskIds) ? partial.taskIds : [],
+		createdAt: now,
+		updatedAt: now,
+	};
+	goals.push(g);
+	await set("goals", goals);
+	return g;
+}
+export async function updateGoal(id, patch) {
+	const goals = await listGoals();
+	const i = goals.findIndex((g) => g.id === id);
+	if (i === -1) return null;
+	goals[i] = { ...goals[i], ...patch, updatedAt: new Date().toISOString() };
+	await set("goals", goals);
+	return goals[i];
+}
+export async function deleteGoal(id) {
+	const goals = await listGoals();
+	const g = goals.find((x) => x.id === id);
+	if (!g) return false;
+	// Unlink tasks that point to this goal
+	const tasks = await listTasks();
+	for (const t of tasks) {
+		if (t.goalId === id) t.goalId = null;
+	}
+	await set("tasks", tasks);
+	await set(
+		"goals",
+		goals.filter((x) => x.id !== id)
+	);
+	return true;
+}
+
+export async function linkTaskToGoal(taskId, goalId) {
+	const goals = await listGoals();
+	// remove from any existing goal first (single-goal assignment)
+	for (const gg of goals) gg.taskIds = gg.taskIds.filter((x) => x !== taskId);
+	const g = goals.find((x) => x.id === goalId);
+	if (!g) {
+		await set("goals", goals);
+		await updateTask(taskId, { goalId: null });
+		return null;
+	}
+	if (!g.taskIds.includes(taskId)) g.taskIds.push(taskId);
+	await set("goals", goals);
+	await updateTask(taskId, { goalId });
+	return g;
+}
+export async function unlinkTaskFromGoals(taskId) {
+	const goals = await listGoals();
+	let changed = false;
+	for (const g of goals) {
+		const before = g.taskIds.length;
+		g.taskIds = g.taskIds.filter((x) => x !== taskId);
+		if (g.taskIds.length !== before) changed = true;
+	}
+	if (changed) await set("goals", goals);
+	await updateTask(taskId, { goalId: null });
+	return true;
+}
