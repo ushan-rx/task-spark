@@ -49,5 +49,61 @@ export function daysBetween(aYMD, bYMD) {
 	return Math.round((b - a) / ms);
 }
 
+export function nextLocalMidnight(from = new Date()) {
+	const d = new Date(from);
+	d.setDate(d.getDate() + 1);
+	d.setHours(0, 0, 0, 0);
+	return d;
+}
+
+// Very small markdown-lite: HTML (bold, italic, links). Escapes HTML first.
+export function escapeHTML(s) {
+	return s.replace(
+		/[&<>"']/g,
+		(c) =>
+			({
+				"&": "&amp;",
+				"<": "&lt;",
+				">": "&gt;",
+				'"': "&quot;",
+				"'": "&#39;",
+			}[c])
+	);
+}
+
+export function isValidUrl(u) {
+	try {
+		const x = new URL(u);
+		return x.protocol === "http:" || x.protocol === "https:";
+	} catch {
+		return false;
+	}
+}
+
+export function mdRender(raw) {
+	if (!raw) return "";
+	const safe = escapeHTML(raw);
+	// [label](url)
+	const link = safe.replace(
+		/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+		(_, t, u) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`
+	);
+	// **bold**, *italic*
+	return link
+		.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+		.replace(/\*([^*]+)\*/g, "<em>$1</em>")
+		.replace(/\n/g, "<br>");
+}
+
+// Fuzzy-ish contain: all tokens must appear (case-insensitive)
+export function fuzzyContains(searchString, searchQuery) {
+	if (!searchQuery) return true; // empty
+	const st = (searchString || "").toLowerCase();
+	return searchQuery
+		.toLowerCase()
+		.split(/\s+/)
+		.every((token) => st.includes(token));
+}
+
 // Priority weights for metrics
 export const PRIORITY_WEIGHT = { low: 1, med: 2, high: 3 };

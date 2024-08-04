@@ -23,7 +23,26 @@ export function toast(msg, ms = 1800) {
 	t.addEventListener("transitionend", () => t.remove());
 }
 
-
+export function confirmDialog(message) {
+	return new Promise((res) => {
+		const wrap = document.createElement("div");
+		wrap.className = "dialog-wrap";
+		wrap.innerHTML = `
+      <div class="dialog">
+        <p>${message}</p>
+        <div class="dialog-actions">
+          <button class="btn secondary" data-act="no">Cancel</button>
+          <button class="btn primary" data-act="yes">OK</button>
+        </div>
+      </div>`;
+		document.body.appendChild(wrap);
+		wrap.addEventListener("click", (e) => {
+			if (e.target.dataset.act === "yes") res(true), wrap.remove();
+			if (e.target.dataset.act === "no" || e.target === wrap)
+				res(false), wrap.remove();
+		});
+	});
+}
 
 // Animate progress bar width (CSS handles transition).
 export function setProgress(el, ratio) {

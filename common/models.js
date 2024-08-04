@@ -156,6 +156,7 @@ export async function createGoal(partial) {
 	await set("goals", goals);
 	return g;
 }
+
 export async function updateGoal(id, patch) {
 	const goals = await listGoals();
 	const i = goals.findIndex((g) => g.id === id);
@@ -196,6 +197,7 @@ export async function linkTaskToGoal(taskId, goalId) {
 	await updateTask(taskId, { goalId });
 	return g;
 }
+
 export async function unlinkTaskFromGoals(taskId) {
 	const goals = await listGoals();
 	let changed = false;
@@ -206,5 +208,27 @@ export async function unlinkTaskFromGoals(taskId) {
 	}
 	if (changed) await set("goals", goals);
 	await updateTask(taskId, { goalId: null });
+	return true;
+}
+
+// Daily & streak bookkeeping
+export async function markDailyCompletion(taskId, date = todayYMD()) {
+	const daily = await listDaily();
+	let rec = daily.find((x) => x.date === date);
+	if (!rec) {
+		rec = {
+			date,
+			completedTaskIds: [],
+			createdAt: new Date().toISOString(),
+		};
+		daily.push(rec);
+	}
+	if (!rec.completedTaskIds.includes(taskId))
+		rec.completedTaskIds.push(taskId);
+	await set("daily", daily);
+}
+
+export async function rolloverDaily(date = todayYMD()) {
+	// No-op now; tasks marked isDaily or repeat=daily remain. Could copy templates if needed later.
 	return true;
 }
