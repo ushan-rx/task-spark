@@ -1,0 +1,156 @@
+:root {
+	--bg: #f7f8fb;
+	--fg: #1e293b;
+	--muted: #64748b;
+	--card: #ffffff;
+	--accent: #2563eb;
+	--ok: #22c55e;
+	--warn: #f59e0b;
+	--bad: #ef4444;
+	--shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+	--radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #0b1220;
+		--fg: #e5e7eb;
+		--card: #0f172a;
+		--muted: #94a3b8;
+		--shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+	}
+}
+* {
+	box-sizing: border-box;
+}
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+body {
+	width: 360px;
+	max-height: 600px;
+	background: var(--bg);
+	color: var(--fg);
+	font: 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 12px 0;
+}
+h1 {
+	font-size: 16px;
+	margin: 0;
+}
+h2 {
+	font-size: 14px;
+	margin: 12px 8px;
+	color: var(--muted);
+}
+.quick-add {
+	display: flex;
+	gap: 8px;
+	padding: 12px;
+}
+input {
+	flex: 1;
+	color: #ffff;
+	border: 1px solid #e5e7eb;
+	background: var(--card);
+	padding: 10px 12px;
+	border-radius: var(--radius);
+	outline: none;
+}
+button {
+	border: 0;
+	background: var(--accent);
+	color: #fff;
+	padding: 10px 12px;
+	border-radius: 10px;
+	cursor: pointer;
+	box-shadow: var(--shadow);
+}
+button:hover {
+	filter: brightness(1.05);
+}
+.list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 8px;
+}
+.card {
+	background: var(--card);
+	border-radius: var(--radius);
+	padding: 10px;
+	box-shadow: var(--shadow);
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 8px;
+}
+.card .title {
+	font-weight: 600;
+}
+.card .meta {
+	font-size: 12px;
+	color: var(--muted);
+	display: flex;
+	gap: 6px;
+	align-items: center;
+}
+.progress {
+	height: 6px;
+	width: 100%;
+	background: #e5e7eb;
+	border-radius: 8px;
+	overflow: hidden;
+}
+.bar {
+	height: 100%;
+	width: 0%;
+	background: var(--ok);
+	transition: width 240ms ease;
+}
+.badge {
+	margin-block: 6px;
+	padding: 2px 6px;
+	border-radius: 8px;
+	font-size: 11px;
+}
+.badge.overdue {
+	background: var(--bad);
+	color: #fff;
+}
+.badge.risk {
+	background: var(--warn);
+	color: #111;
+}
+.badge.ok {
+	background: var(--ok);
+	color: #111;
+}
+footer {
+	padding: 8px 12px 12px;
+	display: flex;
+	justify-content: flex-end;
+}
+#empty {
+	display: none;
+	padding: 0 12px 12px;
+	color: var(--muted);
+}
+.streak {
+	font-size: 12px;
+	color: var(--muted);
+}
+.sr-only {
+	position: absolute;
+	left: -9999px;
+}
+@media (prefers-reduced-motion: reduce) {
+	.bar {
+		transition: none;
+	}
+}
