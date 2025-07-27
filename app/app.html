@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TaskSpark — Full App</title>
+  <link rel="stylesheet" href="app.css">
+  <style>
+    body { max-width: 1200px; margin: 0 auto; }
+    .top { position: sticky; top: 0; }
+    @media (min-width: 1100px) {
+      .dashboard { grid-template-columns: repeat(4, 1fr); }
+      .layout { grid-template-columns: 2fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">TaskSpark</div>
+    <div class="controls">
+      <input id="search" placeholder="Search (/)" aria-label="Search tasks" />
+      <select id="filterStatus" aria-label="Filter by status">
+        <option value="">All</option>
+        <option value="todo">To-Do</option>
+        <option value="in-progress">In Progress</option>
+        <option value="done">Done</option>
+      </select>
+      <select id="filterPri" aria-label="Filter by priority">
+        <option value="">Any priority</option>
+        <option value="high">High</option>
+        <option value="med">Medium</option>
+        <option value="low">Low</option>
+      </select>
+      <button id="toggleCal" title="Toggle calendar (D)">Calendar</button>
+      <button id="newGoal" title="New Goal (G)">+ Goal</button>
+      <button id="newTask" title="New Task (N)">+ Task</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="left">
+      <div class="dashboard">
+        <div class="card kpi" id="kpiToday"></div>
+        <div class="card kpi" id="kpiWeek"></div>
+        <div class="card kpi" id="kpiStreak"></div>
+        <div class="card kpi" id="kpiFocus"></div>
+      </div>
+
+      <div id="calendarWrap" class="card hide">
+        <div id="week"></div>
+        <div id="month"></div>
+      </div>
+
+      <div class="list" id="taskList" aria-live="polite"></div>
+    </section>
+
+    <aside class="right">
+      <!-- Hidden by default & shown when a task is selected -->
+      <div class="card hide" id="detail">
+        <div class="empty">Select a task or goal</div>
+      </div>
+
+      <!-- Visible by default & hidden when detail is shown -->
+      <div class="card goals">
+        <h3>Goals</h3>
+        <div id="goalList"></div>
+      </div>
+    </aside>
+  </main>
+
+  <div id="toast-root"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

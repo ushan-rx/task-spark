@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "TaskSpark",
+    "description": "Minimal, elegant, local-only task manager with goals, streaks, calendar, and a motivating dashboard.",
+    "version": "1.0.1",
+    "action": {
+        "default_title": "TaskSpark",
+        "default_popup": "popup/popup.html"
+    },
+    "background": {
+        "service_worker": "bg/service_worker.js",
+        "type": "module"
+    },
+    "permissions": [
+        "storage",
+        "alarms",
+        "notifications"
+    ],
+    "icons": {
+        "16": "assets/icon16.png",
+        "32": "assets/icon32.png",
+        "48": "assets/icon48.png",
+        "128": "assets/icon128.png"
+    },
+    "options_page": "options/options.html",
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'; img-src 'self' data:; style-src 'self';"
+    }
+}

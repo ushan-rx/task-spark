@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TaskSpark • Today</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <h1>TaskSpark</h1>
+    <div class="streak" id="streak"></div>
+  </header>
+
+  <section class="quick-add">
+    <label for="quickTitle" class="sr-only">Quick add task</label>
+    <input id="quickTitle" placeholder="Quick add (press Enter)…" />
+    <button id="addBtn" title="Add (N)">Add</button>
+  </section>
+
+  <section id="today">
+    <h2>Today</h2>
+    <div id="todayList" class="list"></div>
+    <div id="empty">No tasks due today. Enjoy the calm ☕</div>
+  </section>
+
+  <footer>
+    <button id="openPanel">Open full app</button>
+  </footer>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
