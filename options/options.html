@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="utf-8" />
+  <title>TaskSpark • Options</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <h1>TaskSpark Settings</h1>
+
+  <section class="card">
+    <h2>Appearance</h2>
+    <label><span>Theme</span>
+      <select id="theme">
+        <option value="system">System</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+    <label><span>Start week on Monday</span>
+      <input type="checkbox" id="weekStart" />
+    </label>
+  </section>
+
+  <section class="card">
+    <h2>Notifications</h2>
+    <label><span>Enable overdue reminders</span>
+      <input type="checkbox" id="notifs" />
+    </label>
+  </section>
+
+  <section class="card">
+    <h2>Data</h2>
+    <div class="row">
+      <button id="exportBtn">Export JSON</button>
+      <label class="file">
+        Import JSON
+        <input type="file" id="importFile" accept="application/json" />
+      </label>
+      <button id="seed">Seed demo data</button>
+    </div>
+  </section>
+
+  <p class="meta">TaskSpark stores data locally using chrome.storage.local. No network calls, ever.</p>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>
