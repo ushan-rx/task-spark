@@ -9,7 +9,7 @@ import { toast } from "./ui.js";
 export function wireEvents() {
 	document.addEventListener("keydown", (e) => {
 		// Require Ctrl (or Cmd on macOS)
-		if (!(e.ctrlKey || e.metaKey)) return;
+		if (!(e.altKey || e.metaKey)) return;
 
 		const k = e.key.toLowerCase();
 
